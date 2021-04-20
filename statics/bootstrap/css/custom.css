@@ -1,0 +1,148 @@
+body, html {
+    margin: 0;
+    background-color: #fff;
+    font-family: PingFang SC,Hiragino Sans GB,Microsoft YaHei,Arial,sans-serif;
+}
+
+.page-container{
+    border: 1px dashed red;
+    width: 80%;
+    /*text-align: center;*/
+    margin: 0 auto;
+    overflow: hidden;
+}
+.wrap-left{
+    float: left;
+    width: 75%;
+    /*background-color: yellow;*/
+}
+.wrap-right{
+    float: right;
+    width: 24%;
+    background-color: green;
+}
+
+.article-head-img img{
+    width: 220px;
+    height: 125px;
+}
+.article-brief a{
+    margin-left: -10px;
+    font-size: 20px;
+    color: #333;
+}
+
+.article-brief a:visited{
+    text-decoration: none;
+}
+.article-brief a:hover{
+    color: blue;
+    text-decoration: none;
+}
+.article-brief-text span{
+    color: gray;
+}
+.article-title-brief{
+    color: gray;
+    margin-top: 10px;
+}
+.article-content .article-content-img img{
+    /*让其和父元素一边宽*/
+    width: 100%;
+    margin-top: 25px;
+    margin-bottom: 20px;
+}
+.article-content-text{
+    line-height: 30px;
+}
+
+.jumbotron h4{
+    text-align: center;
+}
+
+
+/*for webchat*/
+
+.chat-container{
+    width: 100%;
+    height: 700px;
+    border: 1px dashed pink;
+
+    overflow: hidden;
+}
+.chat-container .left-contact-panel{
+    width: 200px;
+    height: 655px;
+    border: 2px solid red;
+    float: left;
+}
+.chat-container .right-chat-panel{
+    width: 750px;
+    height: 100%;
+    border: 2px solid greenyellow;
+    float: left;
+}
+.chat-container .chat-box-title{
+    height: 50px;
+    border: 1px  solid darkblue;
+}
+.chat-container .chat-box-window{
+    width: 100%;
+    height: 30px;
+    border: 1px dashed black;
+}
+.chat-container .chat-box-emoj{
+    height: 30px;
+    width: 100%;
+    border: 1px dashed greenyellow;
+}
+.chat-container .chat-box-msg-box{
+    width: 100%;
+    height: 120px;
+    border: 2px dashed lightpink;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*.article-box{*/
+/*    margin-bottom: 10px;*/
+/*}*/
+/*.article-box{*/
+/*    border-bottom: 1px dashed gray;*/
+/*}*/
+
+
+
+
+
+/*.page-container::after{*/
+/*    content: '';*/
+/*    display: block;*/
+/*    clear: both;*/
+/*}*/

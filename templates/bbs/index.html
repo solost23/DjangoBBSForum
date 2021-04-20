@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block tag-menu %}
+    {% for category in category_list %}
+        {% if category.id == category_obj.id %}
+        <li class="active"><a
+                href="/bbs/category/{{ category.id }}">{{ category.name }}</a></li>
+            {% else %}
+        <li class=""><a
+                href="/bbs/category/{{ category.id }}">{{ category.name }}</a></li>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

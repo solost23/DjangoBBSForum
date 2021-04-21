@@ -73,6 +73,10 @@ TEMPLATES = [
 WSGI_APPLICATION = 'DjangoBBSForum.wsgi.application'
 
 
+# 设置表未设置主键的时候的自动主键类型
+DEFAULT_AUTO_FIELD='django.db.models.AutoField'
+
+
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 

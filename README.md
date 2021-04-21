@@ -1,5 +1,5 @@
 # DjangoBBSForum
-基于`python3.7`和`Django2.2.4`的BBS论坛
+基于`python3.7`和`Django3.2`的BBS论坛
 ## 主要功能
 - 实现不同的论坛板块
 - 帖子列表展示

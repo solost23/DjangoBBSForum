@@ -14,9 +14,10 @@ class Article(models.Model):
     title = models.CharField(max_length=255)
     # 描述
     brief = models.CharField(null=True, blank=True, max_length=255)
-    category = models.ForeignKey("Category", on_delete=True)
+    # on_delete=models.CASCADE：表示级联删除
+    category = models.ForeignKey("Category", on_delete=models.CASCADE)
     content = models.TextField(u"文章内容")
-    author = models.ForeignKey("UserProfile", on_delete=True)
+    author = models.ForeignKey("UserProfile", on_delete=models.CASCADE)
     # 时间自动生成
     # auto_now_add:保存第一次创建文章时候的时间，后面修改文章时间不改变
     pub_date = models.DateTimeField(blank=True, null=True)
@@ -47,12 +48,12 @@ class Comment(models.Model):
     '''
     评论表 + 点赞表
     '''
-    article = models.ForeignKey(Article, verbose_name=u"所属文章", on_delete=True)
-    parent_comment = models.ForeignKey("self", related_name="my_children", blank=True, null=True, on_delete=True)
+    article = models.ForeignKey(Article, verbose_name=u"所属文章", on_delete=models.CASCADE)
+    parent_comment = models.ForeignKey("self", related_name="my_children", blank=True, null=True, on_delete=models.CASCADE)
     comment_choices = ((1, u"评论"),
                        (2, u"点赞"))
     comment_type = models.IntegerField(choices=comment_choices, default=1)
-    user = models.ForeignKey("UserProfile", on_delete=True)
+    user = models.ForeignKey("UserProfile", on_delete=models.CASCADE)
     date = models.DateTimeField(auto_now_add=True)
     comment = models.TextField(blank=True, null=True)
 
@@ -90,7 +91,7 @@ class UserProfile(models.Model):
     '''
     用户表
     '''
-    user = models.OneToOneField(User, on_delete=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     # 昵称
     name = models.CharField(max_length=255)
     signature = models.CharField(max_length=255, blank=True, null=True)

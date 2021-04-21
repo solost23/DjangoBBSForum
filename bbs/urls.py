@@ -18,5 +18,7 @@ from bbs import views
 
 urlpatterns = [
     path('', views.index),
-    path('category/<int:id>/', views.category),
+    path('category/<int:category_id>/', views.category),
+    path('article/<int:article_id>/', views.article_detail, name="article_detail"),
+    path('comment/', views.comment, name="post_comment"),
 ]

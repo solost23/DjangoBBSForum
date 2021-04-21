@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{#登录#}
+{% block page-container %}
+<form action="" method="post">
+    {#csrf_token：防止跨站域请求#}
+    {#所有post请求提交数据的时候都要带上这个#}
+    {% csrf_token %}
+    Username:<input type="text" name="username">
+    Password:<input type="password" name="password">
+    <input type="submit" value="提交">
+    <div>
+        {% if login_err %}
+        <P style="...">{{ login_err }}</P>
+        {% endif %}
+    </div>
+</form>
+
+{% endblock %}
+
+
+

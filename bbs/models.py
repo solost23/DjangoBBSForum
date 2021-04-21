@@ -65,7 +65,7 @@ class Comment(models.Model):
             raise ValidationError("评论内容不能为空")
 
     def __str__(self):
-        return "%s, P:%s, %s" % (self.article, self.parent_comment.id, self.comment)
+        return "%s, P:%s, %s" % (self.article, self.parent_comment, self.comment)
 
 
 class Category(models.Model):
@@ -73,7 +73,8 @@ class Category(models.Model):
     板块表
     '''
     name = models.CharField(max_length=255)
-    # blank表示可以为空
+    # blank：针对表单而言，若为True，表示表单填写该字段时可以不填
+    # null：针对数据库而言，若为True, 表示数据表中该字段可以为空
     brief = models.CharField(null=True, blank=True, max_length=255)
     # 板块动态展示
     set_as_top_menu = models.BooleanField(default=False)

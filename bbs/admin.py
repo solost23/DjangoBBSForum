@@ -2,6 +2,10 @@ from django.contrib import admin
 from bbs import models
 
 # Register your models here.
+'''
+1.注册models(admin.site.register(...))
+2.在后台admin中决定展示哪些字段(list_display)
+'''
 
 
 class ArticleAdmin(admin.ModelAdmin):

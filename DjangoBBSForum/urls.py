@@ -16,8 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.conf.urls import include
+from bbs import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('bbs/', include("bbs.urls")),
+    path('login/', views.acc_login, name="login"),
+    path('logout/', views.acc_logout, name="logout"),
 ]

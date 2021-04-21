@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+# 注册自己的app
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -52,6 +53,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'DjangoBBSForum.urls'
 
+# 配置模板文件根目录
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -81,7 +83,7 @@ WSGI_APPLICATION = 'DjangoBBSForum.wsgi.application'
 #     }
 # }
 
-# 连接Mysql
+# 配置Mysql，连接Mysql
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -130,8 +132,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
+# 配置静态文件根目录（statics和uploads目录下的文件都可以通过/statics/filename找到）
 STATIC_URL = '/statics/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "statics")
+    os.path.join(BASE_DIR, "statics"),
+    os.path.join(BASE_DIR, "uploads")
 ]

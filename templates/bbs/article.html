@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load custom %}
+{#实现动态菜单#}
+{% block tag-menu %}
+    {% for category in category_list %}
+        {% if category.id == category_obj.id %}
+            <li class="active"><a
+                    href="/bbs/category/{{ category.id }}/">{{ category.name }}</a></li>
+        {% else %}
+            <li class=""><a
+                    href="/bbs/category/{{ category.id }}/">{{ category.name }}</a></li>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{#主页右上角显示用户名或者登录#}
+{% block login_register %}
+    {% if request.user.is_authenticated %}
+        <li class=""><a href="#">{{ request.user.userprofile.name }}</a></li>
+        <li class=""><a href="{% url "logout" %}">注销</a></li>
+    {% else %}
+        <li class=""><a href="{% url "login" %}">登录/注册</a></li>
+    {% endif %}
+{% endblock %}
+
+{#主页显示文章列表#}
+{% block page-container %}
+    {#    左侧栏页面显示文章列表#}
+    <div class="wrap-left">
+        <div class="article-title-bg">
+            {{ article_obj.title }}
+        </div>
+        <div class="article-title-brief">
+            <span>作者：{{ article_obj.author.name }}</span>
+            <span>时间：{{ article_obj.pub_date }}</span>
+            <span>{% filter_comment article_obj as comments %}</span>
+            <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+
+            {{ comments.comment_count }}
+            <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+            {{ comments.thumb_count }}
+        </div>
+        <div class="article-content">
+            <img class="article-detail-head-img" src="/statics/{{ article_obj.head_img|truncate_url }}">
+            {{ article_obj.content }}
+        </div>
+        <div class="comment-box">
+            {% if request.user.is_authenticated %}
+                <textarea class="form-control" rows="3">
+
+                </textarea>
+                <button type="button" class="btn btn-success pull-right" style="margin-top: 10px">
+                    评论
+                </button>
+            {% else %}
+                <div class="jumbotron">
+                    {#request.path用来记录当前页面的路径，登陆完还返回到当前页面#}
+                    <h4 class="text-center"><a class="btn-link" href="{% url "login" %}?next={{ request.path }}">登录</a>后评论</h4>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    {#    右侧栏页面#}
+    <div class="wrap-right">
+        right
+    </div>
+    <div class="clear-both">
+
+    </div>
+{% endblock %}
+
+{% block bottom-js %}
+    <script>
+        function getCsrf() {
+            return $('input[name="csrfmiddlewaretoken"]').val();
+        }
+
+        $(document).ready(function () {
+            $(".comment-box button").click(function () {
+                var comment_text = $(".comment-box textarea").val();
+                if (comment_text.trim().length < 5) {
+                    alert("评论不能少于5个字符")
+                } else {
+                    // 提交 post
+                    $.post("{% url "post_comment" %}",
+                        {
+                            {#传向后端的参数，key加不加引号都可以#}
+                            comment_type: 1,
+                            article_id: "{{ article_obj.id }}",
+                            parent_comment_id: null,
+                            comment_content: comment_text.trim(),
+                            csrfmiddlewaretoken: getCsrf(),
+
+                        },  // end post args
+                        function (callback) {
+                            console.log(callback);
+                            if (callback == "success") {
+                                alert("评论成功")
+                            }
+                        })
+                }
+            }); // end button click
+        });
+    </script>
+{% endblock %}
+
+
+

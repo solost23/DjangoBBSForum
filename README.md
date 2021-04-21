@@ -21,9 +21,9 @@ pip install -r requirements.txt
 ```
     
 ### 配置
-配置都在DjangoBBSForum/settings.py中。
+配置都在 `DjangoBBSForum/settings.py` 中。
 ## 运行
-修改DjangoBBSForum/settings.py修改数据库配置，如下所示：
+修改 `DjangoBBSForum/settings.py` 修改数据库配置，如下所示：
 ```python
 DATABASES = {
     'default': {
@@ -38,13 +38,13 @@ DATABASES = {
 ```
     
 ### 创建数据库
-这里为了省去本机安装mysql等繁琐的步骤，采用docker搭建数据库环境。
+这里为了省去本机安装 `mysql` 等繁琐的步骤，采用 `docker` 搭建数据库环境。
 ```bash
 docker run --name oneMysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123 -d mysql:5.7
 ```
     
 
-CMD中进入 oneMysql容器，然后在终端执行命令进入 mysql 并创建一个数据库bbs
+CMD中进入 `oneMysql` 容器，然后在终端执行命令进入 `mysql` 并创建一个数据库 `bbs`
 ```bash
 docker exec -it oneMysql bash
 CREATE DATABASE bbs CHARACTER SET utf8;
@@ -56,7 +56,7 @@ CREATE DATABASE bbs CHARACTER SET utf8;
 ./manage.py migrate
 ```
  
-**<font color=red>注意：</font>** 在使用 `./manage.py` 之前需要确定你系统中的 `python` 命令是指向 `python3.6` 及以上版本的（3.6版本及以上执行.py文件的时候不加 `python` 也可以）。如果不是如此，请使用以下两种方式中的一种：
+**注意：** 在使用 `./manage.py` 之前需要确定你系统中的 `python` 命令是指向 `python3.6` 及以上版本的（3.6版本及以上执行.py文件的时候不加 `python` 也可以）。如果不是如此，请使用以下两种方式中的一种：
 - 修改 `manage.py` 第一行 `#!/usr/bin/env python` 为 `#!/usr/bin/env python3`
 - 直接使用 `python ./manage.py makemigrations` 
     

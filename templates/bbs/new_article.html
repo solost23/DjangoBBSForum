@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load custom %}
+{#实现动态菜单#}
+{% block tag-menu %}
+    {% for category in category_list %}
+        {% if category.id == category_obj.id %}
+            <li class="active"><a
+                    href="/bbs/category/{{ category.id }}/">{{ category.name }}</a></li>
+        {% else %}
+            <li class=""><a
+                    href="/bbs/category/{{ category.id }}/">{{ category.name }}</a></li>
+        {% endif %}
+    {% endfor %}
+{% endblock %}
+
+{#主页右上角显示用户名或者登录#}
+{% block login_register %}
+    {% if request.user.is_authenticated %}
+        <li class=""><a href="#">{{ request.user.userprofile.name }}</a></li>
+        <li class=""><a href="{% url "logout" %}">注销</a></li>
+    {% else %}
+        <li class=""><a href="{% url "login" %}">登录/注册</a></li>
+    {% endif %}
+        <li class=""><a href="{% url "new_article" %}">发帖</a></li>
+{% endblock %}
+
+{#主页显示文章列表#}
+{% block page-container %}
+{#    左侧栏页面显示文章列表#}
+    <div class="wrap-left">
+{#        需要传文件的时候用enctype参数#}
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+{#            <div id="editor">#}
+{##}
+{#            </div>#}
+            {{ article_form }}
+            <input type="submit" class="btn btn-success pull-right" value="发帖">
+        </form>
+    </div>
+
+{#    右侧栏页面#}
+    <div class="wrap-right">
+        right
+    </div>
+    <div class="clear-both">
+
+    </div>
+{% endblock %}
+
+{% block bottom-js %}
+    <script src="https://cdn.ckeditor.com/ckeditor5/27.1.0/classic/ckeditor.js"></script>
+    <script>
+    ClassicEditor
+        .create( document.querySelector( '#id_content' ) );
+        {#移除textarea的required属性，否则提交文件的时候浏览器会认为这是一个必须填写的字段，可是没有填写值，所以数据提交不到后端#}
+        $('#id_content').removeAttr('required')
+        .catch( error => {
+            console.error( error );
+        } );
+</script>
+{% endblock %}

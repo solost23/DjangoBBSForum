@@ -1,3 +1,4 @@
+/*for bbs*/
 
 .page-container {
     border: 1px dashed darkcyan;
@@ -100,4 +101,65 @@ body {
     margin-left: -6.5%;
     /*background-color: black;*/
 }
+
+.comment-node {
+    border: 1px solid darkcyan;
+    padding: 5px;
+}
+
+.root-comment {
+    border: 1px solid darkcyan;
+    padding: 5px;
+}
+
+.new-article-notify {
+    background-color: brown;
+    padding: 10px;
+
+}
+
+/*for webchat*/
+.chat-container {
+    width: 100%;
+    border: 1px dashed darkcyan;
+}
+
+.left-contact-panel {
+    width: 280px;
+    height: 100%;
+    border: 2px solid blueviolet;
+    float: left;
+}
+
+.right-chat-panel {
+    width: 935px;
+    height: 100%;
+    border: 2px solid greenyellow;
+    float: left;
+}
+
+.chat-box-title {
+    height: 50px;
+    border: 2px solid darkslategray;
+}
+
+.chat-box-window {
+    height: 450px;
+    border: 1px solid black;
+}
+
+.chat-box-emoj {
+    height: 30px;
+    border: 1px solid black;
+}
+
+.chat-box-msg-box {
+    height: 120px;
+    border: 1px solid deeppink;
+}
+
+
+
+
+
 

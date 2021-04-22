@@ -66,7 +66,7 @@ class Comment(models.Model):
             raise ValidationError("评论内容不能为空")
 
     def __str__(self):
-        return "%s, P:%s, %s" % (self.article, self.parent_comment, self.comment)
+        return "C:%s"%self.comment
 
 
 class Category(models.Model):
@@ -96,6 +96,9 @@ class UserProfile(models.Model):
     name = models.CharField(max_length=255)
     signature = models.CharField(max_length=255, blank=True, null=True)
     head_img = models.ImageField(height_field=150, width_field=150, blank=True, null=True)
+
+    # for WebQQ
+    friends = models.ManyToManyField('self', related_name="my_fields", blank=True)
 
     def __str__(self):
         return self.name

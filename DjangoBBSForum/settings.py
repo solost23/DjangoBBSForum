@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bbs',
+    'webchat',
 ]
 
 MIDDLEWARE = [
@@ -143,3 +144,5 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "statics"),
     os.path.join(BASE_DIR, "uploads")
 ]
+
+LOGIN_URL = '/login/'

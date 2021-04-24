@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = '60@ao*cmig-m2l(pc#!bq+4bzt)v488c0#5eujzeg@+cz!w)@6'
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -39,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bbs',
-    'webchat',
 ]
 
 MIDDLEWARE = [
@@ -73,10 +70,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'DjangoBBSForum.wsgi.application'
 
-
 # 设置表未设置主键的时候的自动主键类型
-DEFAULT_AUTO_FIELD='django.db.models.AutoField'
-
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
@@ -100,7 +95,6 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
@@ -119,7 +113,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.2/topics/i18n/
 
@@ -133,7 +126,6 @@ USE_L10N = True
 
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
@@ -142,7 +134,13 @@ STATIC_URL = '/statics/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "statics"),
-    os.path.join(BASE_DIR, "uploads")
+    # 文章图片查找位置
+    os.path.join(BASE_DIR, "uploads"),
+    # 头像图片查找位置
+    os.path.join(BASE_DIR, "media"),
 ]
 
 LOGIN_URL = '/login/'
+
+# 配置后台头像上传目录
+# MEDIA_ROOT = os.path.join(BASE_DIR, "statics")

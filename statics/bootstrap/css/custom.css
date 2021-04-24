@@ -15,7 +15,7 @@
 .wrap-right {
     width: 25%;
     float: left;
-    background-color: blueviolet;
+    /*background-color: blueviolet;*/
 }
 
 .clear-both {
@@ -62,7 +62,7 @@ a:hover {
 }
 
 body {
-    color: #333;
+    /*color: #333;*/
     font-family: Arial, "微软雅黑", "Microsoft yahei", "Hiragino Sans GB", "冬青黑体简体中文 w3", "Microsoft Yahei";
 }
 
@@ -103,12 +103,12 @@ body {
 }
 
 .comment-node {
-    border: 1px solid darkcyan;
+    /*border: 1px solid darkcyan;*/
     padding: 5px;
 }
 
 .root-comment {
-    border: 1px solid darkcyan;
+    /*border: 1px solid darkcyan;*/
     padding: 5px;
 }
 
@@ -127,36 +127,21 @@ body {
 .left-contact-panel {
     width: 280px;
     height: 100%;
-    border: 2px solid blueviolet;
+    /*border: 2px solid blueviolet;*/
     float: left;
 }
 
 .right-chat-panel {
     width: 935px;
     height: 100%;
-    border: 2px solid greenyellow;
+    /*border: 2px solid greenyellow;*/
     float: left;
 }
 
-.chat-box-title {
-    height: 50px;
-    border: 2px solid darkslategray;
-}
 
-.chat-box-window {
-    height: 450px;
-    border: 1px solid black;
-}
+/*将footer固定在底部*/
 
-.chat-box-emoj {
-    height: 30px;
-    border: 1px solid black;
-}
 
-.chat-box-msg-box {
-    height: 120px;
-    border: 1px solid deeppink;
-}
 
 
 

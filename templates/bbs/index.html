@@ -11,7 +11,6 @@
                     href="/bbs/category/{{ category.id }}/">{{ category.name }}</a></li>
         {% endif %}
     {% endfor %}
-    <li class=""><a href="{% url 'chat_dashboard' %}">Web Chat</a></li>
 {% endblock %}
 
 {#主页右上角显示用户名或者登录#}
@@ -66,7 +65,13 @@
 
     {#    右侧栏页面#}
     <div class="wrap-right">
-        right
+        <form action="" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <input type="text" class="form-control" name="key">
+            </div>
+            <input type="submit" value="搜索">
+        </form>
     </div>
     <div class="clear-both">
 

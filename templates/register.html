@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{#注册#}
+{% block page-container %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-lg-offset-3">
+
+                <form>
+                    {% csrf_token %}
+
+                    {% for field in form %}
+                        <div class="form-group">
+                            <!--                        field.auto_id 拿到input对象的id-->
+                            <label for='{{ field.auto_id }}'>{{ field.label }}</label>
+                            {{ field }}<span class="error pull-right"></span>
+                        </div>
+                    {% endfor %}
+                    <div class="form-group">
+                        <div>
+                            <!--                      做成一个label标签，利用for属性，这样点击图片就相当于点击了input-->
+                            <label for="avatar">头像
+                                <img id='img_avatar' src="/statics/default_avatar.jpg" width="60">
+                            </label>
+                            <input type="file" id="avatar" style="display:none">
+                        </div>
+                    </div>
+                    <input type="button" class="btn btn-default reg_btn pull-right" value="注册"><span
+                        class="error"></span>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="/statics/bootstrap/js/jquery.min.js.下载"></script>
+    <script>
+        $('#avatar').change(function () {
+            // alert(123)
+            // 获取用户选中的文件对象
+            var file_obj = $(this)[0].files[0];
+            // console.log(file_obj);
+            //获取当前文件对象路径
+            var reader = new FileReader();
+            //获取到的路径存储到reader的result属性中
+            reader.readAsDataURL(file_obj);
+            // console.log(reader.result);
+
+            //修改img的src属性(保证在读完在去赋值，因为读的比较慢，又是异步执行代码，会导致没读完就赋值)
+            reader.onload = function () {
+                $('#img_avatar').attr('src', reader.result)
+            };
+        });
+
+        //绑定提交事件，发送ajax请求
+        $('.reg_btn').click(function () {
+
+            var formdata = new FormData();
+            formdata.append('user', $('#id_user').val());
+            formdata.append('pwd', $('#id_pwd').val());
+            formdata.append('re_pwd', $('#id_re_pwd').val());
+            formdata.append('email', $('#id_email').val());
+            formdata.append('avatar', $('#avatar')[0].files[0]);
+            //post请求发送ajax要自己加上csrf_token
+            formdata.append('csrfmiddlewaretoken', $("[name='csrfmiddlewaretoken']").val());
+            $.ajax({
+                    url: '',
+                    type: 'post',
+                    contentType: false,
+                    processData: false,
+                    data: formdata,
+                    success: function (data) {
+                        // console.log(data);
+                        if (data.user) {
+                            //注册成功
+                            // console.log(data);
+                            location.href = '/login/'
+                        } else {
+                            //注册失败
+                            //将之前的所有span标签清空
+                            $('.error').html('');
+                            //移除input框变红效果
+                            $('.form-group').removeClass('has-error');
+                            // console.log(data.msg);
+                            // 循环错误的字段名和其对应的列表,展示此次的错误信息
+                            $.each(data.msg, function (field, error_list) {
+                                // console.log(field,error_list);
+                                if (field == '__all__') {
+                                    $('#id_re_pwd').next().html(error_list[0]).parent().addClass('has-error')
+                                }
+                                $('#id_' + field).next().html(error_list[0]);
+                                $('#id_' + field).parent().addClass('has-error')
+                            })
+                        }
+                    }
+                }
+            )
+        })
+    </script>
+
+{% endblock %}

@@ -2,21 +2,42 @@
 
 {#登录#}
 {% block page-container %}
-<form action="" method="post">
-    {#csrf_token：防止跨站域请求#}
-    {#所有post请求提交数据的时候都要带上这个#}
-    {% csrf_token %}
-    Username:<input type="text" name="username">
-    Password:<input type="password" name="password">
-    <input type="submit" value="提交">
-    <div>
-        {% if login_err %}
-        <P style="...">{{ login_err }}</P>
-        {% endif %}
-    </div>
-</form>
+    <form>
+        {#csrf_token：防止跨站域请求#}
+        {#所有post请求提交数据的时候都要带上这个#}
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="user">用户名</label>
+            <input type="text" id="user" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="pwd">密码</label>
+            <input type="password" id="pwd" class="form-control">
+        </div>
+
+        <div class="form-group">
+            <label for="code">验证码</label>
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="text" id='code' class="form-control">
+                </div>
+
+                <div class="col-md-6">
+                    {#                    # 获取验证码#}
+                    <img src="{% url 'get_validcode_img' %}" id="valid_code_img" height="40" width="270">
+                </div>
+            </div>
+        </div>
+
+
+        <input type="button" class="btn btn-default login_btn pull-right" value="登录"><span class="error"></span>
+        <a href="{% url 'register' %}" class="btn btn-success">注册</a>
+    </form>
 
 {% endblock %}
+
+
 
 
 

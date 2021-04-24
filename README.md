@@ -1,5 +1,5 @@
 # DjangoBBSForum
-基于`python3.7` + `Django3.2` + `mysql5.7` + `CKEditor 5 Classic`实现的前后端不分离BBS论坛 + web 聊天室（长轮询实现）
+基于`python3.7` + `Django3.2` + `mysql5.7` + `CKEditor 5 Classic`实现的前后端不分离BBS论坛
 ## 主要功能
 #### BBS主要功能
 - 实现不同的论坛板块（前端展示板块可动态变化）
@@ -11,9 +11,7 @@
 - 帖子可被置顶显示
 - 可进行多级评论（实现评论树、动态加载评论等）
 - 页面新消息自动提醒
-#### Web聊天室 主要功能
-- 用户可以与好友一对一聊天
-- 用户可以群聊
+- **用户注册登录功能待优化**
 ## 安装
 ### 下载
 ```bash
@@ -48,7 +46,6 @@ DATABASES = {
 docker run --name oneMysql -p 3306:3306 -e MYSQL_ROOT_PASSWORD=123 -d mysql:5.7
 ```
     
-
 CMD中进入 `oneMysql` 容器，然后在终端执行命令进入 `mysql` 并创建一个数据库 `bbs`
 ```bash
 docker exec -it oneMysql bash
@@ -77,7 +74,6 @@ CREATE DATABASE bbs CHARACTER SET utf8;
 ```
     
 - 浏览器打开：http://127.0.0.1:8000/bbs/ 就可以看到 BBS 效果了
-- 浏览器打开：http://127.0.0.1:8000/chat/ 就可以看到 web聊天室 效果了
-- http://127.0.0.1:8000/admin/ 可访问网站后台，用户名和密码为超级用户的用户名和密码
+- 浏览器打开：http://127.0.0.1:8000/admin/ 可访问网站后台，用户名和密码为超级用户的用户名和密码
 
 

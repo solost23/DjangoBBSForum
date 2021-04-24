@@ -20,4 +20,3 @@ def filter_comment(article_obj):
         "thumb_count": query_set.filter(comment_type=2).count()
     }
     return comments
-

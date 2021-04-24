@@ -1,14 +1,13 @@
-#_*_coding:utf-8_*_
+# _*_coding:utf-8_*_
 __author__ = 'Solost23'
 from django.forms import ModelForm
 from bbs import models
 
 
 class ArticleModelForm(ModelForm):
-
     class Meta:
         model = models.Article
-        exclude = ('author', 'pub_date', 'priority', )
+        exclude = ('author', 'pub_date', 'priority',)
 
     def __init__(self, *args, **kwargs):
         super(ArticleModelForm, self).__init__(*args, **kwargs)

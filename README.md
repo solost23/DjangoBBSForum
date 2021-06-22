@@ -1,5 +1,5 @@
 # DjangoBBSForum
-基于`python3.7` + `Django3.2` + `mysql5.7` + `CKEditor 5 Classic`实现的前后端不分离BBS论坛
+基于`python3.7` + `Django3.2` + `mysql5.7` + `CKEditor 5 Classic`实现的BBS论坛
 ## 主要功能
 #### BBS主要功能
 - 实现不同的论坛板块（前端展示板块可动态变化）

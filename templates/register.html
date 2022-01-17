@@ -2,39 +2,39 @@
 
 {#注册#}
 {% block page-container %}
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6 col-lg-offset-3">
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 col-lg-offset-3">
 
-                <form>
-                    {% csrf_token %}
+            <form>
+                {% csrf_token %}
 
-                    {% for field in form %}
-                        <div class="form-group">
-                            <!--                        field.auto_id 拿到input对象的id-->
-                            <label for='{{ field.auto_id }}'>{{ field.label }}</label>
-                            {{ field }}<span class="error pull-right"></span>
-                        </div>
-                    {% endfor %}
-                    <div class="form-group">
-                        <div>
-                            <!--                      做成一个label标签，利用for属性，这样点击图片就相当于点击了input-->
-                            <label for="avatar">头像
-                                <img id='img_avatar' src="/statics/default_avatar.jpg" width="60">
-                            </label>
-                            <input type="file" id="avatar" style="display:none">
-                        </div>
+                {% for field in form %}
+                <div class="form-group">
+                    <!--                        field.auto_id 拿到input对象的id-->
+                    <label for='{{ field.auto_id }}'>{{ field.label }}</label>
+                    {{ field }}<span class="error pull-right"></span>
+                </div>
+                {% endfor %}
+                <div class="form-group">
+                    <div>
+                        <!--                      做成一个label标签，利用for属性，这样点击图片就相当于点击了input-->
+                        <label for="avatar">头像
+                            <img id='img_avatar' src="/statics/default_avatar.jpg" width="60">
+                        </label>
+                        <input type="file" id="avatar" style="display:none">
                     </div>
-                    <input type="button" class="btn btn-default reg_btn pull-right" value="注册"><span
-                        class="error"></span>
-                </form>
+                </div>
+                <input type="button" class="btn btn-default reg_btn pull-right" value="注册"><span
+                    class="error"></span>
+            </form>
 
-            </div>
         </div>
     </div>
+</div>
 
-    <script src="/statics/bootstrap/js/jquery.min.js.下载"></script>
-    <script>
+<script src="/statics/bootstrap/js/jquery.min.js.下载"></script>
+<script>
         $('#avatar').change(function () {
             // alert(123)
             // 获取用户选中的文件对象
@@ -96,6 +96,7 @@
                 }
             )
         })
-    </script>
+
+</script>
 
 {% endblock %}

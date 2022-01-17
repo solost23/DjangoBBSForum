@@ -15,13 +15,14 @@ from django.contrib.auth.models import User
 
 # Create your views here.
 
+
 category_list = models.Category.objects.filter(set_as_top_menu=True).order_by("position_index")
 
 
 def index(request):
     # 说明要搜索了
     if request.method == 'POST':
-        print(request.POST)
+        # print(request.POST)
         key = request.POST.get('key')
         article_list = models.Article.objects.filter(title__icontains=key)
     else:
@@ -41,7 +42,7 @@ def category(request, category_id):
 
 def acc_login(request):
     if request.method == 'POST':
-        print(request.POST)
+        # print(request.POST)
         response = {'user': None, 'msg': None}
         user = request.POST.get('user')
         pwd = request.POST.get('pwd')
@@ -57,9 +58,9 @@ def acc_login(request):
             else:
                 response['msg'] = '用户名或密码错误'
         else:
-            response['msg'] = '验证码错误'
-        return JsonResponse(response)
-
+            response['msg'] = 'code error'
+            return JsonResponse(response)
+        return HttpResponseRedirect("/bbs/")
     return render(request, 'login.html')
 
 
@@ -82,8 +83,13 @@ def article_detail(request, article_id):
 
 
 def comment(request):
+    '''
+    获取文章评论
+    :param request:
+    :return:
+    '''
     if request.method == "POST":
-        print(request.POST)
+        # print(request.POST)
         new_comment_obj = models.Comment(
             article_id=request.POST.get("article_id"),
             parent_comment_id=request.POST.get("parent_comment_id", None),
@@ -101,7 +107,6 @@ def get_comments(request, article_id):
     :param request:
     :return:
     '''
-
     article_obj = models.Article.objects.get(id=article_id)
     comment_tree = comment_handler.build_tree(article_obj.comment_set.select_related())
     # 手动将评论字典拼接评论成html代码
@@ -126,11 +131,11 @@ def new_article(request):
     # 若已经登录，那么允许发帖
     if request.method == "POST":
         # 提交文章内容
-        print(request.POST)
+        # print(request.POST)
         # 图片文件在request.FILES中
         article_form = form.ArticleModelForm(request.POST, request.FILES)
         if article_form.is_valid():
-            print(article_form.cleaned_data)
+            # print(article_form.cleaned_data)
             # article_form.cleaned_data是一个属性，不能直接更改，所以要赋给data
             data = article_form.cleaned_data
             data['author_id'] = request.user.userprofile.id

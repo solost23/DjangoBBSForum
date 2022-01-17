@@ -2,86 +2,86 @@
 {% load custom %}
 {#实现动态菜单#}
 {% block tag-menu %}
-    {% for category in category_list %}
-        {% if category.id == category_obj.id %}
-            <li class="active"><a
-                    href="/bbs/category/{{ category.id }}/">{{ category.name }}</a></li>
-        {% else %}
-            <li class=""><a
-                    href="/bbs/category/{{ category.id }}/">{{ category.name }}</a></li>
-        {% endif %}
-    {% endfor %}
+{% for category in category_list %}
+{% if category.id == category_obj.id %}
+<li class="active"><a
+        href="/bbs/category/{{ category.id }}/">{{ category.name }}</a></li>
+{% else %}
+<li class=""><a
+        href="/bbs/category/{{ category.id }}/">{{ category.name }}</a></li>
+{% endif %}
+{% endfor %}
 {% endblock %}
 
 {#主页右上角显示用户名或者登录#}
 {% block login_register %}
-    {% if request.user.is_authenticated %}
-        <li class=""><a href="#">{{ request.user.userprofile.name }}</a></li>
-        <li class=""><a href="{% url "logout" %}">注销</a></li>
-    {% else %}
-        <li class=""><a href="{% url "login" %}">登录/注册</a></li>
-    {% endif %}
-    <li class=""><a href="{% url "new_article" %}">发帖</a></li>
+{% if request.user.is_authenticated %}
+<li class=""><a href="#">{{ request.user }}</a></li>
+<li class=""><a href="{% url 'logout' %}">注销</a></li>
+{% else %}
+<li class=""><a href="{% url 'login' %}">登录/注册</a></li>
+{% endif %}
+<li class=""><a href="{% url 'new_article' %}">发帖</a></li>
 {% endblock %}
 
 {#主页显示文章列表#}
 {% block page-container %}
-    {#    左侧栏页面显示文章列表#}
-    <div class="wrap-left">
-        <div class="new-article-notify hide">
-            <a href="{% url 'bbs' %}">有<span></span>条新消息</a>
+{#    左侧栏页面显示文章列表#}
+<div class="wrap-left">
+    <div class="new-article-notify hide">
+        <a href="{% url 'bbs' %}">有<span></span>条新消息</a>
+    </div>
+    {# 文章反转 #}
+    {% for article_obj in article_list reversed %}
+    <div article_id="{{ article_obj.id }}" class="article-box row">
+        <div class="article-head-img col-md-4">
+            {#使用标签实现过滤掉/statics/uploads/jiage.jpg中的uploads，否则找不到图片（settings.py中设置了从statics中找文件，路径中就不需要写uploads了）#}
+            <img src="/statics/{{ article_obj.head_img|truncate_url }}">
         </div>
-        {#        文章反转#}
-        {% for article_obj in article_list reversed %}
-            <div article_id="{{ article_obj.id }}" class="article-box row">
-                <div class="article-head-img col-md-4">
-                    {#使用标签实现过滤掉/statics/uploads/jiage.jpg中的uploads，否则找不到图片（settings.py中设置了从statics中找文件，路径中就不需要写uploads了）#}
-                    <img src="/statics/{{ article_obj.head_img|truncate_url }}">
-                </div>
-                <div class="article-brief col-md-8">
-                    {#反向路由并传参#}
-                    <a class="article-title"
-                       href="{% url "article_detail" article_obj.id %}  ">{{ article_obj.title }}</a>
-                    <div class="article-brief-info">
-                        <span>{{ article_obj.author.name }}</span>
-                        <span>{{ article_obj.pub_date }}</span>
-                        <span>{% filter_comment article_obj as comments %}</span>
-                        <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
+        <div class="article-brief col-md-8">
+            {#反向路由并传参#}
+            <a class="article-title"
+               href="{% url 'article_detail' article_obj.id %} ">{{ article_obj.title }}</a>
+            <div class="article-brief-info">
+                <span>{{ article_obj.author.name }}</span>
+                <span>{{ article_obj.pub_date }}</span>
+                <span>{% filter_comment article_obj as comments %}</span>
+                <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
 
-                        {{ comments.comment_count }}
-                        <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
-                        {{ comments.thumb_count }}
-                    </div>
-                    <div class="article-brief-text">
+                {{ comments.comment_count }}
+                <span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>
+                {{ comments.thumb_count }}
+            </div>
+            <div class="article-brief-text">
                     <span>
                         {{ article_obj.brief }}
                     </span>
-                    </div>
-                </div>
             </div>
-            <hr>
-        {% endfor %}
+        </div>
     </div>
+    <hr>
+    {% endfor %}
+</div>
 
-    {#    右侧栏页面#}
-    <div class="wrap-right">
-        <form action="" method="post">
-            {% csrf_token %}
-            <div class="form-group">
-                <input type="text" class="form-control" name="key">
-            </div>
-            <input type="submit" value="搜索">
-        </form>
-    </div>
-    <div class="clear-both">
+{#    右侧栏页面#}
+<div class="wrap-right">
+    <form action="" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <input type="text" class="form-control" name="key">
+        </div>
+        <input type="submit" value="搜索">
+    </form>
+</div>
+<div class="clear-both">
 
-    </div>
+</div>
 {% endblock %}
 
 {#实现每过一段时间就提示新文章。#}
 {#利用死循环实现#}
 {% block bottom-js %}
-    <script>
+<script>
         $(document).ready(function () {
 
             var latest_article_id = $($(".wrap-left").children()[1]).attr("article_id");
@@ -101,5 +101,7 @@
                 {#console.log(latest_article_id)#}
             }, 3000); // end setInterval
         }); // end doc ready
-    </script>
+
+
+</script>
 {% endblock %}

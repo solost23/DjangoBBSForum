@@ -25,7 +25,7 @@ urlpatterns = [
     path('logout/', views.acc_logout, name="logout"),
     path('register/', views.register, name="register"),
     # 获取验证码
-    path('get_validcode_img', views.get_validcode_img, name="get_validcode_img"),
+    path('get_validcode_img/', views.get_validcode_img, name="get_validcode_img"),
 
     # 所有的都匹配不到走这个
     re_path(r'.*', views.not_found),

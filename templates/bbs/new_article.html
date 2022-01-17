@@ -16,24 +16,24 @@
 {#主页右上角显示用户名或者登录#}
 {% block login_register %}
     {% if request.user.is_authenticated %}
-        <li class=""><a href="#">{{ request.user.userprofile.name }}</a></li>
-        <li class=""><a href="{% url "logout" %}">注销</a></li>
+        <li class=""><a href="#">{{ request.user }}</a></li>
+        <li class=""><a href="{% url 'logout' %}">注销</a></li>
     {% else %}
-        <li class=""><a href="{% url "login" %}">登录/注册</a></li>
+        <li class=""><a href="{% url 'login' %}">登录/注册</a></li>
     {% endif %}
-    <li class=""><a href="{% url "new_article" %}">发帖</a></li>
+    <li class=""><a href="{% url 'new_article' %}">发帖</a></li>
 {% endblock %}
 
 {#主页显示文章列表#}
 {% block page-container %}
-    {#    左侧栏页面显示文章列表#}
+    {#左侧栏页面显示文章列表#}
     <div class="wrap-left">
-        {#        需要传文件的时候用enctype参数#}
+        {#需要传文件的时候用enctype参数#}
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
-            {#            <div id="editor">#}
+            {#<div id="editor">#}
             {##}
-            {#            </div>#}
+            {#</div>#}
             {{ article_form }}
             <input type="submit" class="btn btn-success pull-right" value="发帖">
         </form>

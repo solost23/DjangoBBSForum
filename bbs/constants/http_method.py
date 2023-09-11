@@ -1,0 +1,2 @@
+HTTP_POST = 'POST'
+HTTP_GET = 'GET'

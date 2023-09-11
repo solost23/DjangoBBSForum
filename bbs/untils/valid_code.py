@@ -26,22 +26,23 @@
 # data = f.getvalue()
 
 # 方式3：
-import random
-import string
+import random, string
 from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
 
 
-def getRandomColor():
-    '''获取一个随机颜色(r,g,b)格式的'''
+def get_random_color():
+    """
+    获取一个随机颜色
+    """
     c1 = random.randint(0, 255)
     c2 = random.randint(0, 255)
     c3 = random.randint(0, 255)
-    return (c1, c2, c3)
+    return c1, c2, c3
 
 
 def get_code_img(request):
-    rand_color = getRandomColor()
+    rand_color = get_random_color()
     img = Image.new('RGB', (270, 40), color=rand_color)
     draw = ImageDraw.Draw(img)
     kumo_font = ImageFont.truetype('statics/bootstrap/fonts/lhandw.ttf', size=30)
@@ -49,7 +50,7 @@ def get_code_img(request):
     char_str = ''.join(char_list)
     char = ' '.join(char_list)
     # 在这里面不能随机，所以要调用函数生成随机颜色
-    draw.text((60, 5), char, getRandomColor(), font=kumo_font)
+    draw.text((60, 5), char, get_random_color(), font=kumo_font)
 
     # 噪点噪线
     width = 270

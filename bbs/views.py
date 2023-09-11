@@ -1,30 +1,26 @@
+import json
+
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
-from bbs import models
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-from bbs import comment_handler
-# 钩子
-from bbs.Myforms import UserForm
-from bbs import form
-import json
-from bbs.models import UserProfile
 from django.http import JsonResponse
-from bbs.untils.valid_code import get_code_img
-
 from django.contrib.auth.models import User
 
-# Create your views here.
-
+from bbs import models, comment_handler, form
+from bbs.untils.valid_code import get_code_img
+from bbs.constants import http_method
+# 钩子
+from bbs.Myforms import UserForm
 
 category_list = models.Category.objects.filter(set_as_top_menu=True).order_by("position_index")
 
 
 def index(request):
     # 说明要搜索了
-    if request.method == 'POST':
+    if request.method == http_method.HTTP_POST:
         # print(request.POST)
-        key = request.POST.get('key')
-        article_list = models.Article.objects.filter(title__icontains=key)
+        keyword = request.POST.get('keyword')
+        article_list = models.Article.objects.filter(title__icontains=keyword)
     else:
         # 首页一开始展示全部状态为已发布文章列表
         article_list = models.Article.objects.filter(status="published")
@@ -41,8 +37,7 @@ def category(request, category_id):
 
 
 def acc_login(request):
-    if request.method == 'POST':
-        # print(request.POST)
+    if request.method == http_method.HTTP_POST:
         response = {'user': None, 'msg': None}
         user = request.POST.get('user')
         pwd = request.POST.get('pwd')
@@ -70,11 +65,9 @@ def acc_logout(request):
 
 
 def article_detail(request, article_id):
-    '''
-    文章详情页
-    :param request:
-    :return: 返回当前文章对象
-    '''
+    """
+    文章详情
+    """
     article_obj = models.Article.objects.get(id=article_id)
     # 调用构造树函数
     comment_handler.build_tree(article_obj.comment_set.select_related())
@@ -83,13 +76,10 @@ def article_detail(request, article_id):
 
 
 def comment(request):
-    '''
-    获取文章评论
-    :param request:
-    :return:
-    '''
-    if request.method == "POST":
-        # print(request.POST)
+    """
+    文章评论
+    """
+    if request.method == http_method.HTTP_POST:
         new_comment_obj = models.Comment(
             article_id=request.POST.get("article_id"),
             parent_comment_id=request.POST.get("parent_comment_id", None),
@@ -102,11 +92,9 @@ def comment(request):
 
 
 def get_comments(request, article_id):
-    '''
-    获取文章评论
-    :param request:
-    :return:
-    '''
+    """
+    文章评论
+    """
     article_obj = models.Article.objects.get(id=article_id)
     comment_tree = comment_handler.build_tree(article_obj.comment_set.select_related())
     # 手动将评论字典拼接评论成html代码
@@ -120,16 +108,13 @@ def get_comments(request, article_id):
 # 2.在settings.py中指定
 @login_required
 def new_article(request):
-    '''
+    """
     发帖页面,post表示提交文章，get表示返回页面
-    :param request:
-    :return:
-    '''
-
+    """
     # 判断用户有没有登录，如果没有登录，则跳转到登陆页面
     # request.user.is_authenticated
     # 若已经登录，那么允许发帖
-    if request.method == "POST":
+    if request.method == http_method.HTTP_POST:
         # 提交文章内容
         # print(request.POST)
         # 图片文件在request.FILES中
@@ -156,11 +141,9 @@ def new_article(request):
 
 
 def get_latest_article_count(request):
-    '''
+    """
     统计id大于首页第一篇文章的文章数
-    :param request:
-    :return:
-    '''
+    """
     latest_article_id = request.GET.get("latest_id")
     if latest_article_id:
         new_article_count = models.Article.objects.filter(id__gt=latest_article_id).count()
@@ -213,12 +196,10 @@ def register(request):
     return render(request, 'register.html', locals())
 
 
-def get_validcode_img(request):
-    '''
+def get_valid_code_img(request):
+    """
     获取验证码
-    :param request:
-    :return:
-    '''
+    """
     img_data = get_code_img(request)
     return HttpResponse(img_data)
 

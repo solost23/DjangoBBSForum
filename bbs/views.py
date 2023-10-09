@@ -1,16 +1,11 @@
 import json
 
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
-from django.contrib.auth import login, logout, authenticate
+
 from django.contrib.auth.decorators import login_required
-from django.http import JsonResponse
-from django.contrib.auth.models import User
 
 from bbs import models, comment_handler, form
-from bbs.untils.valid_code import get_code_img
-from bbs.constants import http_method
-# 钩子
-from bbs.Myforms import UserForm
+from DjangoBBSForum.constants import http_method
 
 category_list = models.Category.objects.filter(set_as_top_menu=True).order_by("position_index")
 
@@ -36,39 +31,39 @@ def category(request, category_id):
                                               "article_list": article_list})
 
 
-def acc_login(request):
-    if request.method == http_method.HTTP_POST:
-        response = {'user': None, 'msg': None}
-        user = request.POST.get('user')
-        pwd = request.POST.get('pwd')
-        code = request.POST.get('code')
+# def acc_login(request):
+#     if request.method == http_method.HTTP_POST:
+#         response = {'user': None, 'msg': None}
+#         user = request.POST.get('user')
+#         pwd = request.POST.get('pwd')
+#         code = request.POST.get('code')
+#
+#         code_str = request.session.get('code')
+#         if code.upper() == code_str.upper():
+#             user = authenticate(username=user, password=pwd)
+#             if user:
+#                 login(request, user)
+#                 # 因为是ajax请求，所以不能返回跳转界面什么的，只能返回一个数据
+#                 response['user'] = user.username
+#             else:
+#                 response['msg'] = '用户名或密码错误'
+#         else:
+#             response['msg'] = 'code error'
+#             return JsonResponse(response)
+#         return HttpResponseRedirect("/bbs/")
+#     return render(request, 'login.html')
 
-        code_str = request.session.get('code')
-        if code.upper() == code_str.upper():
-            user = authenticate(username=user, password=pwd)
-            if user:
-                login(request, user)
-                # 因为是ajax请求，所以不能返回跳转界面什么的，只能返回一个数据
-                response['user'] = user.username
-            else:
-                response['msg'] = '用户名或密码错误'
-        else:
-            response['msg'] = 'code error'
-            return JsonResponse(response)
-        return HttpResponseRedirect("/bbs/")
-    return render(request, 'login.html')
 
-
-def acc_logout(request):
-    logout(request)
-    return HttpResponseRedirect("/bbs/")
+# def acc_logout(request):
+#     logout(request)
+#     return HttpResponseRedirect("/bbs/")
 
 
 def article_detail(request, article_id):
     """
     文章详情
     """
-    article_obj = models.Article.objects.get(id=article_id)
+    article_obj = models.Artricle.objects.get(id=article_id)
     # 调用构造树函数
     comment_handler.build_tree(article_obj.comment_set.select_related())
     return render(request, "bbs/article.html", {"article_obj": article_obj,
@@ -153,56 +148,56 @@ def get_latest_article_count(request):
     return HttpResponse(json.dumps({"new_article_count": new_article_count}))
 
 
-def register(request):
-    # print(request.POST)
-    # print(request.META)
-    if request.is_ajax():  # 或者可以request.method="POST"
-        # print(request.POST)
-        form = UserForm(request.POST)
-        # 发送ajax一般都返回一个字典
-        response = {'user': None, 'msg': None}
-        if form.is_valid():
-            # print(form.cleaned_data)
-            response['user'] = form.cleaned_data.get('user')
-            # 生成一条用户记录
-            user = form.cleaned_data.get('user')
-            # 为什么user为空？？， 先检查局部钩子，发现后面的变量把前面的变量覆盖掉了，导致返回了一个空
-            # print('user', user)
-            pwd = request.POST.get('pwd')
-            email = request.POST.get('email')
-            avatar_obj = request.FILES.get('avatar')
-            # 判断用户是否上传头像来确定是否走默认值
-            # 进行优化
-            # if avatar_obj:
-            #     user_obj = UserInfo.objects.create_user(username=user, password=pwd, email=email, avatar=avatar_obj)
-            # else:
-            #     user_obj = UserInfo.objects.create_user(username=user, password=pwd, email=email)
-
-            extra = {}
-            if avatar_obj:
-                # 字典的键必须和UserInfo中对应才可以赋值
-                extra['head_img'] = avatar_obj
-            #     传字典用**，非固定参数
-
-            User.objects.create_user(username=user, password=pwd, email=email, **extra)
-        else:
-            # print(form.cleaned_data)
-            # print(form.errors)
-            response['msg'] = form.errors
-        # print(response)
-        return JsonResponse(response)
-
-    form = UserForm()
-    return render(request, 'register.html', locals())
-
-
-def get_valid_code_img(request):
-    """
-    获取验证码
-    """
-    img_data = get_code_img(request)
-    return HttpResponse(img_data)
+# def register(request):
+#     # print(request.POST)
+#     # print(request.META)
+#     if request.is_ajax():  # 或者可以request.method="POST"
+#         # print(request.POST)
+#         form = UserForm(request.POST)
+#         # 发送ajax一般都返回一个字典
+#         response = {'user': None, 'msg': None}
+#         if form.is_valid():
+#             # print(form.cleaned_data)
+#             response['user'] = form.cleaned_data.get('user')
+#             # 生成一条用户记录
+#             user = form.cleaned_data.get('user')
+#             # 为什么user为空？？， 先检查局部钩子，发现后面的变量把前面的变量覆盖掉了，导致返回了一个空
+#             # print('user', user)
+#             pwd = request.POST.get('pwd')
+#             email = request.POST.get('email')
+#             avatar_obj = request.FILES.get('avatar')
+#             # 判断用户是否上传头像来确定是否走默认值
+#             # 进行优化
+#             # if avatar_obj:
+#             #     user_obj = UserInfo.objects.create_user(username=user, password=pwd, email=email, avatar=avatar_obj)
+#             # else:
+#             #     user_obj = UserInfo.objects.create_user(username=user, password=pwd, email=email)
+#
+#             extra = {}
+#             if avatar_obj:
+#                 # 字典的键必须和UserInfo中对应才可以赋值
+#                 extra['head_img'] = avatar_obj
+#             #     传字典用**，非固定参数
+#
+#             User.objects.create_user(username=user, password=pwd, email=email, **extra)
+#         else:
+#             # print(form.cleaned_data)
+#             # print(form.errors)
+#             response['msg'] = form.errors
+#         # print(response)
+#         return JsonResponse(response)
+#
+#     form = UserForm()
+#     return render(request, 'register.html', locals())
 
 
-def not_found(request):
-    return render(request, 'not_found.html')
+# def get_valid_code_img(request):
+#     """
+#     获取验证码
+#     """
+#
+#     return HttpResponse(get_code_img(request))
+
+
+# def not_found(request):
+#     return render(request, 'not_found.html')
